@@ -1,0 +1,27 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# React / Node
+node_modules/
+frontend/dist/
+
+# Uploaded documents and local data
+backend/uploads/
+uploads/
+
+# Local database and logs
+*.sqlite3
+*.db
+*.log
+
+# Python packaging
+build/
+*.egg-info/
