@@ -9,7 +9,7 @@ export const tokenStore = {
 };
 
 const client = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || "http://localhost:8000/api",
+    baseURL: import.meta.env.VITE_API_URL || "/api",
 });
 
 client.interceptors.request.use((config) => {
@@ -18,7 +18,8 @@ client.interceptors.request.use((config) => {
     return config;
 });
 
-// A 401 means the token is missing/expired/invalid: drop it and let the app redirect to login.
+// A 401 means the token is missing/expired/invalid.
+// Clear the token and let the app redirect to login.
 client.interceptors.response.use(
     (res) => res,
     (err) => {
@@ -34,7 +35,9 @@ client.interceptors.response.use(
 export function errorMessage(err, fallback = "Something went wrong. Try again.") {
     const detail = err?.response?.data?.detail;
     if (typeof detail === "string") return detail;
-    if (Array.isArray(detail) && detail[0]?.msg) return detail[0].msg.replace(/^Value error, /, "");
+    if (Array.isArray(detail) && detail[0]?.msg) {
+        return detail[0].msg.replace(/^Value error, /, "");
+    }
     return fallback;
 }
 

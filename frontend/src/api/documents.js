@@ -1,26 +1,32 @@
 import client from "./client";
 
-export const listDocuments = () => client.get("/documents").then((r) => r.data);
+export const listDocuments = () =>
+    client.get("/documents").then((r) => r.data);
 
 export const uploadDocument = (file, onProgress) => {
     const form = new FormData();
     form.append("file", file);
+
     return client
         .post("/documents", form, {
-            onUploadProgress: (e) => e.total && onProgress?.(Math.round((e.loaded / e.total) * 100)),
+            onUploadProgress: (e) =>
+                e.total &&
+                onProgress?.(
+                    Math.round((e.loaded / e.total) * 100)
+                ),
         })
         .then((r) => r.data);
 };
 
-export const deleteDocument = (id) => client.delete(`/documents/${id}`);
+export const deleteDocument = (id) =>
+    client.delete(`/documents/${id}`);
 
-// PDFs are fetched with the Authorization header and turned into a blob URL,
-// because an <iframe src> cannot send custom headers.
+// Fetch PDFs with the Authorization header and return a blob.
 export const fetchDocumentBlob = async (id) => {
     const token = localStorage.getItem("dm_token");
 
     const response = await fetch(
-        `http://localhost:8000/api/documents/${id}/file`,
+        `/api/documents/${id}/file`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
