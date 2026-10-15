@@ -4,8 +4,7 @@ sqlalchemy
 psycopg2-binary
 pydantic-settings
 python-multipart
-python-jose[cryptography]
+PyJWT[crypto]
 pwdlib[argon2]
 email-validator
 bcrypt
-# jhjgfdyuik
